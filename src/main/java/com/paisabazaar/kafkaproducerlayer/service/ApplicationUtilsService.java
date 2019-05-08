@@ -1,4 +1,4 @@
-package com.paisabazaar.kafkaproducerlayer.utils;
+package com.paisabazaar.kafkaproducerlayer.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -13,7 +13,8 @@ import java.util.Set;
  * On: 8/5/19
  */
 @Service
-public class ApplicationUtils {
+public class ApplicationUtilsService {
+
     public void copyNonNullProperties(Object src, Object target) {
         BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
     }

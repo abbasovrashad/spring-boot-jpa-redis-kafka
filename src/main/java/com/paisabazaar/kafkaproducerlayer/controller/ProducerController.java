@@ -3,17 +3,13 @@ package com.paisabazaar.kafkaproducerlayer.controller;
 import com.paisabazaar.kafkaproducerlayer.bean.Producer;
 import com.paisabazaar.kafkaproducerlayer.exception.ResourceNotFoundException;
 import com.paisabazaar.kafkaproducerlayer.repository.ProducerRepository;
-import com.paisabazaar.kafkaproducerlayer.utils.ApplicationUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
+import com.paisabazaar.kafkaproducerlayer.service.ApplicationUtilsService;
+import com.paisabazaar.kafkaproducerlayer.service.RedisUtilsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -27,7 +23,10 @@ public class ProducerController {
     ProducerRepository producerRepository;
 
     @Autowired
-    ApplicationUtils applicationUtilsService;
+    RedisUtilsService redisUtilsService;
+
+    @Autowired
+    ApplicationUtilsService applicationUtilsService;
 
     /**
      * Get all producers
@@ -36,6 +35,11 @@ public class ProducerController {
      */
     @GetMapping("/producer")
     public List<Producer> getAllProducers() {
+        // ## retrieve all from redis
+        List<String> x = (List<String>) redisUtilsService.getProducers();
+
+        System.out.println(x);
+
         return producerRepository.findAll();
     }
 
